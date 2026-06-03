@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GSAP Animation Pack — Premium Motion Library</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-trail" id="cursorTrail"></div>
+
+  <!-- Scroll Progress -->
+  <div class="scroll-line" id="scrollLine"></div>
+
+  <!-- ─── Nav ─── -->
+  <nav class="nav">
+    <div class="nav-logo">GSAP<span>Pack</span></div>
+    <div class="nav-count">12 Animations · Ready to Ship</div>
+  </nav>
+
+  <!-- ─── Hero ─── -->
+  <section class="hero">
+    <div class="hero-noise"></div>
+    <div class="hero-grid"></div>
+    <div class="badge">v1.0 — Premium GSAP Pack</div>
+    <h1>
+      <span class="line"><span class="hero-word">MOTION</span></span>
+      <span class="line"><span class="hero-word accent">DESIGN</span></span>
+      <span class="line"><span class="hero-word">SYSTEM</span></span>
+    </h1>
+    <p class="hero-sub">12 production-ready GSAP animations. Plug into any project. Copy-paste code included.</p>
+    <div class="hero-meta">
+      GSAP 3.12<br>
+      Zero Dependencies<br>
+      ES Modules Ready<br>
+      MIT License
+    </div>
+  </section>
+
+  <!-- ─── Marquee ─── -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <div class="marquee-item">Scroll Trigger</div>
+      <div class="marquee-item">Text Reveal</div>
+      <div class="marquee-item">Stagger Entrance</div>
+      <div class="marquee-item">Counter Up</div>
+      <div class="marquee-item">Morphing Shape</div>
+      <div class="marquee-item">Particle Burst</div>
+      <div class="marquee-item">Path Motion</div>
+      <div class="marquee-item">Flip Reveal</div>
+      <div class="marquee-item">Elastic Bounce</div>
+      <div class="marquee-item">Wipe Transition</div>
+      <div class="marquee-item">Typewriter</div>
+      <div class="marquee-item">Float Loop</div>
+      <!-- Duplicate for seamless loop -->
+      <div class="marquee-item">Scroll Trigger</div>
+      <div class="marquee-item">Text Reveal</div>
+      <div class="marquee-item">Stagger Entrance</div>
+      <div class="marquee-item">Counter Up</div>
+      <div class="marquee-item">Morphing Shape</div>
+      <div class="marquee-item">Particle Burst</div>
+      <div class="marquee-item">Path Motion</div>
+      <div class="marquee-item">Flip Reveal</div>
+      <div class="marquee-item">Elastic Bounce</div>
+      <div class="marquee-item">Wipe Transition</div>
+      <div class="marquee-item">Typewriter</div>
+      <div class="marquee-item">Float Loop</div>
+    </div>
+  </div>
+
+  <!-- ─── Animation Library ─── -->
+  <section class="section">
+    <div class="section-label">Animation Library</div>
+
+    <div class="cards-grid" id="cardsGrid">
+
+      <!-- 01. Elastic Bounce In -->
+      <div class="anim-card">
+        <div class="card-tag tag-load">01 — Page Load</div>
+        <div class="card-title">Elastic Bounce In</div>
+        <div class="card-desc">Element enters from below with elastic ease. Perfect for cards, modals, CTAs.</div>
+        <div class="demo-stage">
+          <div class="demo-box" id="d1"></div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <button class="play-btn" onclick="play1()">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>Play
+          </button>
+          <button class="code-toggle" onclick="toggleCode('c1')">{ } Code</button>
+        </div>
+        <div class="code-block" id="c1">
+<span class="cm">// Elastic Bounce In</span>
+<span class="kw">gsap</span>.<span class="fn">from</span>(element, {
+  y: <span class="num">60</span>,
+  opacity: <span class="num">0</span>,
+  scale: <span class="num">0.8</span>,
+  duration: <span class="num">0.8</span>,
+  ease: <span class="str">"elastic.out(1, 0.5)"</span>
+});</div>
+      </div>
+
+      <!-- 02. Stagger Grid Entrance -->
+      <div class="anim-card">
+        <div class="card-tag tag-load">02 — Stagger</div>
+        <div class="card-title">Stagger Grid Entrance</div>
+        <div class="card-desc">Multiple items animate in with cascading delay. Great for grids and lists.</div>
+        <div class="demo-stage">
+          <div class="demo-stagger-row" id="d2">
+            <div class="stagger-item"></div>
+            <div class="stagger-item"></div>
+            <div class="stagger-item"></div>
+            <div class="stagger-item"></div>
+            <div class="stagger-item"></div>
+            <div class="stagger-item"></div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <button class="play-btn" onclick="play2()">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>Play
+          </button>
+          <button class="code-toggle" onclick="toggleCode('c2')">{ } Code</button>
+        </div>
+        <div class="code-block" id="c2">
+<span class="cm">// Stagger Grid Entrance</span>
+<span class="kw">gsap</span>.<span class="fn">from</span>(<span class="str">".item"</span>, {
+  y: <span class="num">30</span>,
+  opacity: <span class="num">0</span>,
+  scale: <span class="num">0.9</span>,
+  duration: <span class="num">0.5</span>,
+  stagger: <span class="num">0.08</span>,
+  ease: <span class="str">"power3.out"</span>
+});</div>
+      </div>
+
+      <!-- 03. Character Split Reveal -->
+      <div class="anim-card">
+        <div class="card-tag tag-text">03 — Text</div>
+        <div class="card-title">Character Split Reveal</div>
+        <div class="card-desc">Each character cascades in from below. Ideal for headlines and hero text.</div>
+        <div class="demo-stage">
+          <div class="demo-split-text" id="d3">
+            <span class="char">H</span><span class="char">E</span><span class="char">L</span><span class="char">L</span><span class="char">O</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <button class="play-btn" onclick="play3()">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>Play
+          </button>
+          <button class="code-toggle" onclick="toggleCode('c3')">{ } Code</button>
+        </div>
+        <div class="code-block" id="c3">
+<span class="cm">// Character Split Reveal</span>
+<span class="kw">gsap</span>.<span class="fn">from</span>(<span class="str">".char"</span>, {
+  y: <span class="num">40</span>,
+  opacity: <span class="num">0</span>,
+  rotateX: <span class="num">-90</span>,
+  duration: <span class="num">0.6</span>,
+  stagger: <span class="num">0.04</span>,
+  ease: <span class="str">"back.out(2)"</span>,
+  transformOrigin: <span class="str">"top center"</span>
+});</div>
+      </div>
+
+      <!-- 04. Animated Counter -->
+      <div class="anim-card">
+        <div class="card-tag tag-scroll">04 — Counter</div>
+        <div class="card-title">Animated Counter</div>
+        <div class="card-desc">Numbers count up smoothly on scroll. Perfect for stats sections.</div>
+        <div class="demo-stage">
+          <div class="demo-counter-el" id="d4">000</div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <button class="play-btn" onclick="play4()">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>Play
+          </button>
+          <button class="code-toggle" onclick="toggleCode('c4')">{ } Code</button>
+        </div>
+        <div class="code-block" id="c4">
+<span class="cm">// Animated Counter</span>
+<span class="kw">const</span> obj = { val: <span class="num">0</span> };
+<span class="kw">gsap</span>.<span class="fn">to</span>(obj, {
+  val: <span class="num">100</span>,
+  duration: <span class="num">2</span>,
+  ease: <span class="str">"power2.out"</span>,
+  onUpdate: () => {
+    el.textContent =
+      Math.<span class="fn">round</span>(obj.val)
+        .<span class="fn">toString</span>()
+        .<span class="fn">padStart</span>(<span class="num">3</span>, <span class="str">"0"</span>);
+  }
+});</div>
+      </div>
+
+      <!-- 05. Wipe Clip Reveal -->
+      <div class="anim-card">
+        <div class="card-tag tag-load">05 — Reveal</div>
+        <div class="card-title">Wipe Clip Reveal</div>
+        <div class="card-desc">A color wipe uncovers the element underneath. Cinematic and clean.</div>
+        <div class="demo-stage">
+          <div class="demo-reveal-box" id="d5">
+            <div class="demo-reveal-inner"></div>
+            <div class="demo-reveal-wipe" id="d5wipe"></div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <button class="play-btn" onclick="play5()">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>Play
+          </button>
+          <button class="code-toggle" onclick="toggleCode('c5')">{ } Code</button>
+        </div>
+        <div class="code-block" id="c5">
+<span class="cm">// Wipe Clip Reveal</span>
+<span class="kw">const</span> tl = <span class="kw">gsap</span>.<span class="fn">timeline</span>();
+tl.<span class="fn">to</span>(wipe, {
+  scaleX: <span class="num">1</span>,
+  duration: <span class="num">0.5</span>,
+  ease: <span class="str">"power3.inOut"</span>
+}).<span class="fn">to</span>(wipe, {
+  scaleX: <span class="num">0</span>,
+  transformOrigin: <span class="str">"right"</span>,
+  duration: <span class="num">0.5</span>,
+  ease: <span class="str">"power3.inOut"</span>
+});</div>
+      </div>
+
+      <!-- 06. Infinite Float -->
+      <div class="anim-card">
+        <div class="card-tag tag-hover">06 — Loop</div>
+        <div class="card-title">Infinite Float</div>
+        <div class="card-desc">Gentle floating loop animation. Great for illustrations and UI accents.</div>
+        <div class="demo-stage">
+          <div class="demo-circle" id="d6"></div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <button class="play-btn" onclick="play6()">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>Play
+          </button>
+          <button class="code-toggle" onclick="toggleCode('c6')">{ } Code</button>
+        </div>
+        <div class="code-block" id="c6">
+<span class="cm">// Infinite Float</span>
+<span class="kw">gsap</span>.<span class="fn">to</span>(element, {
+  y: <span class="num">-14</span>,
+  duration: <span class="num">2.2</span>,
+  ease: <span class="str">"sine.inOut"</span>,
+  repeat: <span class="num">-1</span>,
+  yoyo: <span class="kw">true</span>
+});</div>
+      </div>
+
+      <!-- 07. Particle Burst -->
+      <div class="anim-card">
+        <div class="card-tag tag-hover">07 — Interaction</div>
+        <div class="card-title">Particle Burst</div>
+        <div class="card-desc">Particles explode outward on trigger. Use on clicks or milestone events.</div>
+        <div class="demo-stage" style="overflow:hidden">
+          <div class="demo-particles" id="d7"></div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <button class="play-btn" onclick="play7()">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>Play
+          </button>
+          <button class="code-toggle" onclick="toggleCode('c7')">{ } Code</button>
+        </div>
+        <div class="code-block" id="c7">
+<span class="cm">// Particle Burst</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i &lt; <span class="num">12</span>; i++) {
+  <span class="kw">const</span> angle = (i / <span class="num">12</span>) * Math.PI * <span class="num">2</span>;
+  <span class="kw">const</span> dist  = <span class="num">50</span> + Math.<span class="fn">random</span>() * <span class="num">30</span>;
+  <span class="kw">gsap</span>.<span class="fn">to</span>(particles[i], {
+    x: Math.<span class="fn">cos</span>(angle) * dist,
+    y: Math.<span class="fn">sin</span>(angle) * dist,
+    opacity: <span class="num">0</span>, scale: <span class="num">0</span>,
+    duration: <span class="num">0.8</span>,
+    ease: <span class="str">"power2.out"</span>
+  });
+}</div>
+      </div>
+
+      <!-- 08. ScrollTrigger Fade Up -->
+      <div class="anim-card">
+        <div class="card-tag tag-scroll">08 — Scroll</div>
+        <div class="card-title">ScrollTrigger Fade Up</div>
+        <div class="card-desc">Elements animate in as they enter the viewport. The classic scroll pattern.</div>
+        <div class="demo-stage">
+          <div class="demo-box" id="d8" style="background:var(--accent3)"></div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <button class="play-btn" onclick="play8()">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>Play
+          </button>
+          <button class="code-toggle" onclick="toggleCode('c8')">{ } Code</button>
+        </div>
+        <div class="code-block" id="c8">
+<span class="cm">// ScrollTrigger Fade Up</span>
+<span class="kw">gsap</span>.<span class="fn">from</span>(<span class="str">".section"</span>, {
+  y: <span class="num">50</span>,
+  opacity: <span class="num">0</span>,
+  duration: <span class="num">0.9</span>,
+  ease: <span class="str">"power3.out"</span>,
+  scrollTrigger: {
+    trigger: <span class="str">".section"</span>,
+    start: <span class="str">"top 85%"</span>
+  }
+});</div>
+      </div>
+
+      <!-- 09. Shape Morph -->
+      <div class="anim-card">
+        <div class="card-tag tag-load">09 — Morph</div>
+        <div class="card-title">Shape Morph</div>
+        <div class="card-desc">Border-radius morphs between shapes with fluid ease. Organic & eye-catching.</div>
+        <div class="demo-stage">
+          <div class="demo-morph-el" id="d9"></div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <button class="play-btn" onclick="play9()">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>Play
+          </button>
+          <button class="code-toggle" onclick="toggleCode('c9')">{ } Code</button>
+        </div>
+        <div class="code-block" id="c9">
+<span class="cm">// Shape Morph</span>
+<span class="kw">gsap</span>.<span class="fn">to</span>(element, {
+  borderRadius: <span class="str">"50%"</span>,
+  rotate: <span class="num">180</span>,
+  scale: <span class="num">1.2</span>,
+  duration: <span class="num">0.9</span>,
+  ease: <span class="str">"power2.inOut"</span>,
+  yoyo: <span class="kw">true</span>,
+  repeat: <span class="num">1</span>
+});</div>
+      </div>
+
+      <!-- 10. Typewriter -->
+      <div class="anim-card">
+        <div class="card-tag tag-text">10 — Text</div>
+        <div class="card-title">Typewriter Effect</div>
+        <div class="card-desc">Text types itself out letter by letter. A classic attention-grabber for hero sections.</div>
+        <div class="demo-stage">
+          <div class="demo-text-el" id="d10" style="font-family:'DM Mono',monospace;font-size:1rem"></div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <button class="play-btn" onclick="play10()">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>Play
+          </button>
+          <button class="code-toggle" onclick="toggleCode('c10')">{ } Code</button>
+        </div>
+        <div class="code-block" id="c10">
+<span class="cm">// Typewriter Effect</span>
+<span class="kw">const</span> text = <span class="str">"Hello World_"</span>;
+<span class="kw">const</span> obj  = { len: <span class="num">0</span> };
+<span class="kw">gsap</span>.<span class="fn">to</span>(obj, {
+  len: text.length,
+  duration: <span class="num">1.8</span>,
+  ease: <span class="str">"none"</span>,
+  onUpdate: () => {
+    el.textContent = text.<span class="fn">slice</span>(
+      <span class="num">0</span>, Math.<span class="fn">round</span>(obj.len)
+    );
+  }
+});</div>
+      </div>
+
+      <!-- 11. Line Draw Expand -->
+      <div class="anim-card">
+        <div class="card-tag tag-scroll">11 — Line</div>
+        <div class="card-title">Line Draw Expand</div>
+        <div class="card-desc">A line expands from the center outward. Clean divider animation.</div>
+        <div class="demo-stage">
+          <div class="demo-line-el" id="d11"></div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <button class="play-btn" onclick="play11()">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>Play
+          </button>
+          <button class="code-toggle" onclick="toggleCode('c11')">{ } Code</button>
+        </div>
+        <div class="code-block" id="c11">
+<span class="cm">// Line Draw Expand</span>
+<span class="kw">gsap</span>.<span class="fn">from</span>(line, {
+  scaleX: <span class="num">0</span>,
+  transformOrigin: <span class="str">"center"</span>,
+  opacity: <span class="num">0</span>,
+  duration: <span class="num">1</span>,
+  ease: <span class="str">"expo.out"</span>
+});</div>
+      </div>
+
+      <!-- 12. Dot Pulse Loader -->
+      <div class="anim-card">
+        <div class="card-tag tag-load">12 — Loader</div>
+        <div class="card-title">Dot Pulse Loader</div>
+        <div class="card-desc">Three dots pulse in sequence. The go-to loading state animation.</div>
+        <div class="demo-stage">
+          <div class="demo-dots" id="d12">
+            <div class="demo-dot" style="background:var(--accent)"></div>
+            <div class="demo-dot" style="background:var(--accent2)"></div>
+            <div class="demo-dot" style="background:var(--accent3)"></div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <button class="play-btn" onclick="play12()">
+            <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>Play
+          </button>
+          <button class="code-toggle" onclick="toggleCode('c12')">{ } Code</button>
+        </div>
+        <div class="code-block" id="c12">
+<span class="cm">// Dot Pulse Loader</span>
+<span class="kw">gsap</span>.<span class="fn">to</span>(<span class="str">".dot"</span>, {
+  y: <span class="num">-12</span>,
+  duration: <span class="num">0.4</span>,
+  ease: <span class="str">"power2.out"</span>,
+  stagger: {
+    each: <span class="num">0.15</span>,
+    repeat: <span class="num">-1</span>,
+    yoyo: <span class="kw">true</span>
+  }
+});</div>
+      </div>
+
+    </div><!-- /.cards-grid -->
+
+    <!-- Pack Stats -->
+    <div class="pack-info">
+      <div class="info-cell">
+        <div class="info-num">12</div>
+        <div class="info-label">Animations Included</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-num">0</div>
+        <div class="info-label">Dependencies</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-num">4</div>
+        <div class="info-label">Animation Categories</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-num">∞</div>
+        <div class="info-label">License: MIT</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ─── Footer ─── -->
+  <footer class="footer">
+    <div class="footer-logo">GSAP<span>Pack</span></div>
+    <div class="footer-text">gsap.com · GSAP 3.12 · ScrollTrigger Plugin</div>
+  </footer>
+
+  <!-- Main JS (ES Module) -->
+  <script type="module" src="js/main.js"></script>
+
+</body>
+</html>
