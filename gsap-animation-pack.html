@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GSAP Animation Pack — Premium Motion Library</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --border: #222222;
+    --accent: #c8ff00;
+    --accent2: #ff3c6e;
+    --accent3: #00c8ff;
+    --text: #f0f0f0;
+    --muted: #666;
+    --card: #141414;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transition: transform 0.1s ease;
+  }
+  .cursor-trail {
+    width: 32px; height: 32px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0.4;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 4rem;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-noise {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: 
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.3;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 2rem;
+    width: fit-content;
+  }
+  .badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: blink 1.4s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  .hero h1 {
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+  .hero h1 .line { overflow: hidden; display: block; }
+  .hero h1 .accent { color: var(--accent); }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 400px;
+    line-height: 1.6;
+    font-weight: 400;
+    position: relative; z-index: 1;
+  }
+
+  .hero-meta {
+    position: absolute;
+    right: 4rem;
+    bottom: 4rem;
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 2;
+  }
+
+  /* Nav */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 4rem;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,10,10,0.8);
+  }
+  .nav-logo {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* Section */
+  .section {
+    padding: 6rem 4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--muted);
+  }
+
+  /* Animation Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .anim-card {
+    background: var(--card);
+    padding: 2.5rem;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    transition: background 0.2s ease;
+  }
+  .anim-card:hover { background: #191919; }
+  .anim-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--accent);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  .anim-card:hover::after { opacity: 1; }
+
+  .card-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .card-tag.tag-scroll { color: var(--accent3); }
+  .card-tag.tag-hover { color: var(--accent2); }
+  .card-tag.tag-load { color: var(--accent); }
+  .card-tag.tag-text { color: #b48eff; }
+
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .card-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 400;
+    margin-bottom: 2rem;
+  }
+
+  /* Demo stages */
+  .demo-stage {
+    height: 100px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Animation elements */
+  .demo-box {
+    width: 40px; height: 40px;
+    background: var(--accent);
+    border-radius: 4px;
+  }
+  .demo-circle {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--accent2);
+  }
+  .demo-text-el {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--accent3);
+  }
+  .demo-dots {
+    display: flex; gap: 8px;
+  }
+  .demo-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #b48eff;
+  }
+  .demo-bars {
+    display: flex; gap: 5px; align-items: flex-end; height: 60px;
+  }
+  .demo-bar {
+    width: 10px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+  .demo-line-el {
+    width: 80%; height: 2px;
+    background: var(--accent2);
+    border-radius: 2px;
+  }
+  .demo-morph-el {
+    width: 48px; height: 48px;
+    background: var(--accent3);
+    border-radius: 4px;
+  }
+  .demo-split-text {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+  .demo-split-text .char {
+    display: inline-block;
+  }
+  .demo-reveal-box {
+    position: relative;
+    overflow: hidden;
+  }
+  .demo-reveal-inner {
+    width: 48px; height: 48px;
+    background: var(--accent2);
+    border-radius: 4px;
+  }
+  .demo-reveal-wipe {
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    border-radius: 4px;
+    transform-origin: left;
+  }
+  .demo-counter-el {
+    font-size: 2rem;
+    font-weight: 800;
+    font-family: 'DM Mono', monospace;
+    color: var(--accent);
+    letter-spacing: -0.04em;
+  }
+  .demo-particles {
+    position: relative;
+    width: 100%; height: 100%;
+  }
+  .particle {
+    position: absolute;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .demo-path-el { position: relative; width: 100%; height: 100%; }
+  .path-dot {
+    width: 14px; height: 14px;
+    background: var(--accent3);
+    border-radius: 50%;
+    position: absolute;
+  }
+  .demo-stagger-row {
+    display: flex; gap: 8px;
+  }
+  .stagger-item {
+    width: 32px; height: 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+  }
+
+  /* Play button */
+  .play-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 8px 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+  }
+  .play-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .play-btn svg { width: 12px; height: 12px; fill: currentColor; }
+
+  .code-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    padding: 8px 0;
+    margin-left: 12px;
+    transition: color 0.2s;
+  }
+  .code-toggle:hover { color: var(--accent3); }
+
+  /* Code block */
+  .code-block {
+    background: #0d0d0d;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    color: #ccc;
+    overflow-x: auto;
+    margin-top: 0.8rem;
+    display: none;
+  }
+  .code-block.visible { display: block; }
+  .kw { color: var(--accent2); }
+  .fn { color: var(--accent); }
+  .str { color: var(--accent3); }
+  .cm { color: #555; }
+  .num { color: #b48eff; }
+
+  /* Pack info */
+  .pack-info {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 5rem;
+  }
+  .info-cell {
+    background: var(--card);
+    padding: 2.5rem;
+  }
+  .info-num {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -0.06em;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .info-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 3rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-logo {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* Scroll indicator */
+  .scroll-line {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: var(--accent);
+    z-index: 200;
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+
+  /* Big text marquee */
+  .marquee-wrap {
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 0;
+    background: var(--card);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    width: max-content;
+    animation: marquee 18s linear infinite;
+  }
+  .marquee-item {
+    font-size: 0.8rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+  }
+  .marquee-item::after {
+    content: '✦';
+    color: var(--accent);
+    font-size: 0.7rem;
+  }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  @media (max-width: 768px) {
+    .hero { padding: 6rem 1.5rem; }
+    .nav { padding: 1.2rem 1.5rem; }
+    .section { padding: 4rem 1.5rem; }
+    .hero h1 { font-size: clamp(3rem, 14vw, 6rem); }
+    .pack-info { grid-template-columns: repeat(2, 1fr); }
+    .hero-meta { display: none; }
+    .footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+
+<!-- Scroll progress -->
+<div class="scroll-line" id="scrollLine"></div>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-logo">GSAP<span>Pack</span></div>
+  <div class="nav-count" id="navCount">12 Animations · Ready to Ship</div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-noise"></div>
+  <div class="hero-grid"></div>
+  <div class="badge">v1.0 — Premium GSAP Pack</div>
+  <h1>
+    <span class="line"><span class="hero-word">MOTION</span></span>
+    <span class="line"><span class="hero-word accent">DESIGN</span></span>
+    <span class="line"><span class="hero-word">SYSTEM</span></span>
+  </h1>
+  <p class="hero-sub">12 production-ready GSAP animations. Plug into any project. Copy-paste code included.</p>
+  <div class="hero-meta">
+    GSAP 3.12<br>
+    Zero Dependencies<br>
+    ES Modules Ready<br>
+    MIT License
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marqueeTrack">
+    <div class="marquee-item">Scroll Trigger</div>
+    <div class="marquee-item">Text Reveal</div>
+    <div class="marquee-item">Stagger Entrance</div>
+    <div class="marquee-item">Counter Up</div>
+    <div class="marquee-item">Morphing Shape</div>
+    <div class="marquee-item">Particle Burst</div>
+    <div class="marquee-item">Path Motion</div>
+    <div class="marquee-item">Flip Reveal</div>
+    <div class="marquee-item">Elastic Bounce</div>
+    <div class="marquee-item">Wipe Transition</div>
+    <div class="marquee-item">Typewriter</div>
+    <div class="marquee-item">Float Loop</div>
+    <div class="marquee-item">Scroll Trigger</div>
+    <div class="marquee-item">Text Reveal</div>
+    <div class="marquee-item">Stagger Entrance</div>
+    <div class="marquee-item">Counter Up</div>
+    <div class="marquee-item">Morphing Shape</div>
+    <div class="marquee-item">Particle Burst</div>
+    <div class="marquee-item">Path Motion</div>
+    <div class="marquee-item">Flip Reveal</div>
+    <div class="marquee-item">Elastic Bounce</div>
+    <div class="marquee-item">Wipe Transition</div>
+    <div class="marquee-item">Typewriter</div>
+    <div class="marquee-item">Float Loop</div>
+  </div>
+</div>
+
+<!-- Animations Section -->
+<section class="section">
+  <div class="section-label">Animation Library</div>
+  <div class="cards-grid" id="cardsGrid">
+
+    <!-- 1. Elastic Bounce -->
+    <div class="anim-card">
+      <div class="card-tag tag-load">01 — Page Load</div>
+      <div class="card-title">Elastic Bounce In</div>
+      <div class="card-desc">Element enters from below with elastic ease. Perfect for cards, modals, CTAs.</div>
+      <div class="demo-stage">
+        <div class="demo-box" id="d1"></div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <button class="play-btn" onclick="play1()">
+          <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          Play
+        </button>
+        <button class="code-toggle" onclick="toggleCode('c1')">{ } Code</button>
+      </div>
+      <div class="code-block" id="c1">
+<span class="cm">// Elastic Bounce In</span>
+<span class="kw">gsap</span>.<span class="fn">from</span>(element, {
+  y: <span class="num">60</span>,
+  opacity: <span class="num">0</span>,
+  scale: <span class="num">0.8</span>,
+  duration: <span class="num">0.8</span>,
+  ease: <span class="str">"elastic.out(1, 0.5)"</span>
+});</div>
+    </div>
+
+    <!-- 2. Stagger Entrance -->
+    <div class="anim-card">
+      <div class="card-tag tag-load">02 — Stagger</div>
+      <div class="card-title">Stagger Grid Entrance</div>
+      <div class="card-desc">Multiple items animate in with cascading delay. Great for grids and lists.</div>
+      <div class="demo-stage">
+        <div class="demo-stagger-row" id="d2">
+          <div class="stagger-item"></div>
+          <div class="stagger-item"></div>
+          <div class="stagger-item"></div>
+          <div class="stagger-item"></div>
+          <div class="stagger-item"></div>
+          <div class="stagger-item"></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <button class="play-btn" onclick="play2()">
+          <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          Play
+        </button>
+        <button class="code-toggle" onclick="toggleCode('c2')">{ } Code</button>
+      </div>
+      <div class="code-block" id="c2">
+<span class="cm">// Stagger Grid Entrance</span>
+<span class="kw">gsap</span>.<span class="fn">from</span>(<span class="str">".item"</span>, {
+  y: <span class="num">30</span>,
+  opacity: <span class="num">0</span>,
+  scale: <span class="num">0.9</span>,
+  duration: <span class="num">0.5</span>,
+  stagger: <span class="num">0.08</span>,
+  ease: <span class="str">"power3.out"</span>
+});</div>
+    </div>
+
+    <!-- 3. Text Split Reveal -->
+    <div class="anim-card">
+      <div class="card-tag tag-text">03 — Text</div>
+      <div class="card-title">Character Split Reveal</div>
+      <div class="card-desc">Each character cascades in from below. Ideal for headlines and hero text.</div>
+      <div class="demo-stage">
+        <div class="demo-split-text" id="d3">
+          <span class="char">H</span><span class="char">E</span><span class="char">L</span><span class="char">L</span><span class="char">O</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <button class="play-btn" onclick="play3()">
+          <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          Play
+        </button>
+        <button class="code-toggle" onclick="toggleCode('c3')">{ } Code</button>
+      </div>
+      <div class="code-block" id="c3">
+<span class="cm">// Character Split Reveal</span>
+<span class="kw">gsap</span>.<span class="fn">from</span>(<span class="str">".char"</span>, {
+  y: <span class="num">40</span>,
+  opacity: <span class="num">0</span>,
+  rotateX: <span class="num">-90</span>,
+  duration: <span class="num">0.6</span>,
+  stagger: <span class="num">0.04</span>,
+  ease: <span class="str">"back.out(2)"</span>,
+  transformOrigin: <span class="str">"top center"</span>
+});</div>
+    </div>
+
+    <!-- 4. Counter Up -->
+    <div class="anim-card">
+      <div class="card-tag tag-scroll">04 — Counter</div>
+      <div class="card-title">Animated Counter</div>
+      <div class="card-desc">Numbers count up smoothly on scroll. Perfect for stats sections.</div>
+      <div class="demo-stage">
+        <div class="demo-counter-el" id="d4">000</div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <button class="play-btn" onclick="play4()">
+          <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          Play
+        </button>
+        <button class="code-toggle" onclick="toggleCode('c4')">{ } Code</button>
+      </div>
+      <div class="code-block" id="c4">
+<span class="cm">// Animated Counter</span>
+<span class="kw">const</span> obj = { val: <span class="num">0</span> };
+<span class="kw">gsap</span>.<span class="fn">to</span>(obj, {
+  val: <span class="num">100</span>,
+  duration: <span class="num">2</span>,
+  ease: <span class="str">"power2.out"</span>,
+  onUpdate: () => {
+    el.textContent = 
+      Math.<span class="fn">round</span>(obj.val)
+        .<span class="fn">toString</span>()
+        .<span class="fn">padStart</span>(<span class="num">3</span>, <span class="str">"0"</span>);
+  }
+});</div>
+    </div>
+
+    <!-- 5. Wipe Reveal -->
+    <div class="anim-card">
+      <div class="card-tag tag-load">05 — Reveal</div>
+      <div class="card-title">Wipe Clip Reveal</div>
+      <div class="card-desc">A color wipe uncovers the element underneath. Cinematic and clean.</div>
+      <div class="demo-stage">
+        <div class="demo-reveal-box" id="d5">
+          <div class="demo-reveal-inner"></div>
+          <div class="demo-reveal-wipe" id="d5wipe"></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <button class="play-btn" onclick="play5()">
+          <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          Play
+        </button>
+        <button class="code-toggle" onclick="toggleCode('c5')">{ } Code</button>
+      </div>
+      <div class="code-block" id="c5">
+<span class="cm">// Wipe Clip Reveal</span>
+<span class="kw">const</span> tl = <span class="kw">gsap</span>.<span class="fn">timeline</span>();
+tl.<span class="fn">to</span>(wipe, {
+  scaleX: <span class="num">1</span>,
+  duration: <span class="num">0.5</span>,
+  ease: <span class="str">"power3.inOut"</span>
+}).<span class="fn">to</span>(wipe, {
+  scaleX: <span class="num">0</span>,
+  transformOrigin: <span class="str">"right"</span>,
+  duration: <span class="num">0.5</span>,
+  ease: <span class="str">"power3.inOut"</span>
+});</div>
+    </div>
+
+    <!-- 6. Float Loop -->
+    <div class="anim-card">
+      <div class="card-tag tag-hover">06 — Loop</div>
+      <div class="card-title">Infinite Float</div>
+      <div class="card-desc">Gentle floating loop animation. Great for illustrations and UI accents.</div>
+      <div class="demo-stage">
+        <div class="demo-circle" id="d6"></div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <button class="play-btn" onclick="play6()">
+          <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          Play
+        </button>
+        <button class="code-toggle" onclick="toggleCode('c6')">{ } Code</button>
+      </div>
+      <div class="code-block" id="c6">
+<span class="cm">// Infinite Float</span>
+<span class="kw">gsap</span>.<span class="fn">to</span>(element, {
+  y: <span class="num">-14</span>,
+  duration: <span class="num">2.2</span>,
+  ease: <span class="str">"sine.inOut"</span>,
+  repeat: <span class="num">-1</span>,
+  yoyo: <span class="kw">true</span>
+});</div>
+    </div>
+
+    <!-- 7. Particle Burst -->
+    <div class="anim-card">
+      <div class="card-tag tag-hover">07 — Interaction</div>
+      <div class="card-title">Particle Burst</div>
+      <div class="card-desc">Particles explode outward on trigger. Use on clicks or milestone events.</div>
+      <div class="demo-stage" style="overflow:hidden">
+        <div class="demo-particles" id="d7"></div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <button class="play-btn" onclick="play7()">
+          <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          Play
+        </button>
+        <button class="code-toggle" onclick="toggleCode('c7')">{ } Code</button>
+      </div>
+      <div class="code-block" id="c7">
+<span class="cm">// Particle Burst</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < <span class="num">12</span>; i++) {
+  <span class="kw">const</span> angle = (i / <span class="num">12</span>) * Math.PI * <span class="num">2</span>;
+  <span class="kw">const</span> dist = <span class="num">50</span> + Math.<span class="fn">random</span>() * <span class="num">30</span>;
+  <span class="kw">gsap</span>.<span class="fn">to</span>(particles[i], {
+    x: Math.<span class="fn">cos</span>(angle) * dist,
+    y: Math.<span class="fn">sin</span>(angle) * dist,
+    opacity: <span class="num">0</span>,
+    scale: <span class="num">0</span>,
+    duration: <span class="num">0.8</span>,
+    ease: <span class="str">"power2.out"</span>
+  });
+}</div>
+    </div>
+
+    <!-- 8. Scroll Fade -->
+    <div class="anim-card">
+      <div class="card-tag tag-scroll">08 — Scroll</div>
+      <div class="card-title">ScrollTrigger Fade Up</div>
+      <div class="card-desc">Elements animate in as they enter the viewport. The classic scroll pattern.</div>
+      <div class="demo-stage">
+        <div class="demo-box" id="d8" style="background: var(--accent3)"></div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <button class="play-btn" onclick="play8()">
+          <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          Play
+        </button>
+        <button class="code-toggle" onclick="toggleCode('c8')">{ } Code</button>
+      </div>
+      <div class="code-block" id="c8">
+<span class="cm">// ScrollTrigger Fade Up</span>
+<span class="kw">gsap</span>.<span class="fn">from</span>(<span class="str">".section"</span>, {
+  y: <span class="num">50</span>,
+  opacity: <span class="num">0</span>,
+  duration: <span class="num">0.9</span>,
+  ease: <span class="str">"power3.out"</span>,
+  scrollTrigger: {
+    trigger: <span class="str">".section"</span>,
+    start: <span class="str">"top 85%"</span>,
+    toggleActions: <span class="str">"play none none none"</span>
+  }
+});</div>
+    </div>
+
+    <!-- 9. Morphing Shape -->
+    <div class="anim-card">
+      <div class="card-tag tag-load">09 — Morph</div>
+      <div class="card-title">Shape Morph</div>
+      <div class="card-desc">Border-radius morphs between shapes with fluid ease. Organic & eye-catching.</div>
+      <div class="demo-stage">
+        <div class="demo-morph-el" id="d9"></div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <button class="play-btn" onclick="play9()">
+          <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          Play
+        </button>
+        <button class="code-toggle" onclick="toggleCode('c9')">{ } Code</button>
+      </div>
+      <div class="code-block" id="c9">
+<span class="cm">// Shape Morph</span>
+<span class="kw">gsap</span>.<span class="fn">to</span>(element, {
+  borderRadius: <span class="str">"50%"</span>,
+  rotate: <span class="num">180</span>,
+  scale: <span class="num">1.2</span>,
+  duration: <span class="num">0.9</span>,
+  ease: <span class="str">"power2.inOut"</span>,
+  yoyo: <span class="kw">true</span>,
+  repeat: <span class="num">1</span>
+});</div>
+    </div>
+
+    <!-- 10. Typewriter -->
+    <div class="anim-card">
+      <div class="card-tag tag-text">10 — Text</div>
+      <div class="card-title">Typewriter Effect</div>
+      <div class="card-desc">Text types itself out letter by letter. A classic attention-grabber for hero sections.</div>
+      <div class="demo-stage">
+        <div class="demo-text-el" id="d10" style="font-family:'DM Mono',monospace;font-size:1rem"></div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <button class="play-btn" onclick="play10()">
+          <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          Play
+        </button>
+        <button class="code-toggle" onclick="toggleCode('c10')">{ } Code</button>
+      </div>
+      <div class="code-block" id="c10">
+<span class="cm">// Typewriter Effect</span>
+<span class="kw">const</span> text = <span class="str">"Hello World_"</span>;
+<span class="kw">const</span> obj = { len: <span class="num">0</span> };
+<span class="kw">gsap</span>.<span class="fn">to</span>(obj, {
+  len: text.length,
+  duration: <span class="num">1.8</span>,
+  ease: <span class="str">"none"</span>,
+  onUpdate: () => {
+    el.textContent = text.<span class="fn">slice</span>(
+      <span class="num">0</span>, Math.<span class="fn">round</span>(obj.len)
+    );
+  }
+});</div>
+    </div>
+
+    <!-- 11. Line Draw -->
+    <div class="anim-card">
+      <div class="card-tag tag-scroll">11 — Line</div>
+      <div class="card-title">Line Draw Expand</div>
+      <div class="card-desc">A line expands from the center outward. Clean divider animation.</div>
+      <div class="demo-stage">
+        <div class="demo-line-el" id="d11"></div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <button class="play-btn" onclick="play11()">
+          <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          Play
+        </button>
+        <button class="code-toggle" onclick="toggleCode('c11')">{ } Code</button>
+      </div>
+      <div class="code-block" id="c11">
+<span class="cm">// Line Draw Expand</span>
+<span class="kw">gsap</span>.<span class="fn">from</span>(line, {
+  scaleX: <span class="num">0</span>,
+  transformOrigin: <span class="str">"center"</span>,
+  opacity: <span class="num">0</span>,
+  duration: <span class="num">1</span>,
+  ease: <span class="str">"expo.out"</span>
+});</div>
+    </div>
+
+    <!-- 12. Dot Stagger -->
+    <div class="anim-card">
+      <div class="card-tag tag-load">12 — Loader</div>
+      <div class="card-title">Dot Pulse Loader</div>
+      <div class="card-desc">Three dots pulse in sequence. The go-to loading state animation.</div>
+      <div class="demo-stage">
+        <div class="demo-dots" id="d12">
+          <div class="demo-dot" style="background:var(--accent)"></div>
+          <div class="demo-dot" style="background:var(--accent2)"></div>
+          <div class="demo-dot" style="background:var(--accent3)"></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <button class="play-btn" onclick="play12()">
+          <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+          Play
+        </button>
+        <button class="code-toggle" onclick="toggleCode('c12')">{ } Code</button>
+      </div>
+      <div class="code-block" id="c12">
+<span class="cm">// Dot Pulse Loader</span>
+<span class="kw">gsap</span>.<span class="fn">to</span>(<span class="str">".dot"</span>, {
+  y: <span class="num">-12</span>,
+  duration: <span class="num">0.4</span>,
+  ease: <span class="str">"power2.out"</span>,
+  stagger: {
+    each: <span class="num">0.15</span>,
+    repeat: <span class="num">-1</span>,
+    yoyo: <span class="kw">true</span>
+  }
+});</div>
+    </div>
+
+  </div>
+
+  <!-- Stats -->
+  <div class="pack-info">
+    <div class="info-cell">
+      <div class="info-num" id="stat1">12</div>
+      <div class="info-label">Animations Included</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-num" id="stat2">0</div>
+      <div class="info-label">Dependencies</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-num" id="stat3">4</div>
+      <div class="info-label">Animation Categories</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-num" id="stat4">∞</div>
+      <div class="info-label">License: MIT</div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-logo">GSAP<span>Pack</span></div>
+  <div class="footer-text">gsap.com · GSAP 3.12 · ScrollTrigger Plugin</div>
+</footer>
+
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ─── Cursor ─── */
+  const cur = document.getElementById('cursor');
+  const trail = document.getElementById('cursorTrail');
+  let mx = 0, my = 0, tx = 0, ty = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  gsap.set(cur, { xPercent: -50, yPercent: -50 });
+  gsap.set(trail, { xPercent: -50, yPercent: -50 });
+  function tickCursor() {
+    tx += (mx - tx) * 0.12;
+    ty += (my - ty) * 0.12;
+    gsap.set(cur, { x: mx, y: my });
+    gsap.set(trail, { x: tx, y: ty });
+    requestAnimationFrame(tickCursor);
+  }
+  tickCursor();
+
+  /* ─── Scroll Progress ─── */
+  const scrollLine = document.getElementById('scrollLine');
+  window.addEventListener('scroll', () => {
+    const prog = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    gsap.to(scrollLine, { scaleX: prog, duration: 0.1, ease: 'none' });
+  });
+
+  /* ─── Hero Entrance ─── */
+  gsap.from('.badge', { opacity: 0, y: 20, duration: 0.8, delay: 0.3, ease: 'power3.out' });
+  gsap.from('.hero-word', {
+    y: 80, opacity: 0, duration: 1, stagger: 0.1, delay: 0.5,
+    ease: 'power4.out', skewY: 3
+  });
+  gsap.from('.hero-sub', { opacity: 0, y: 20, duration: 0.8, delay: 1, ease: 'power3.out' });
+  gsap.from('.hero-meta', { opacity: 0, x: 20, duration: 0.8, delay: 1.2, ease: 'power3.out' });
+  gsap.from('.nav', { opacity: 0, y: -20, duration: 0.6, ease: 'power3.out' });
+
+  /* ─── Cards on scroll ─── */
+  gsap.from('.anim-card', {
+    y: 40, opacity: 0, duration: 0.6, stagger: 0.06, ease: 'power3.out',
+    scrollTrigger: { trigger: '#cardsGrid', start: 'top 85%' }
+  });
+
+  /* ─── Code toggle ─── */
+  function toggleCode(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('visible');
+  }
+
+  /* ─── Play functions ─── */
+  function play1() {
+    gsap.from('#d1', { y: 60, opacity: 0, scale: 0.8, duration: 0.8, ease: 'elastic.out(1, 0.5)', clearProps: 'all' });
+  }
+  function play2() {
+    gsap.from('#d2 .stagger-item', {
+      y: 30, opacity: 0, scale: 0.9, duration: 0.5, stagger: 0.08, ease: 'power3.out',
+      onStart() { gsap.set('#d2 .stagger-item', { background: 'var(--accent)', borderColor: 'var(--accent)' }); }
+    });
+    gsap.to('#d2 .stagger-item', { background: 'var(--surface)', borderColor: 'var(--border)', delay: 1.2, stagger: 0.06 });
+  }
+  function play3() {
+    gsap.from('#d3 .char', {
+      y: 40, opacity: 0, rotateX: -90, duration: 0.6, stagger: 0.04,
+      ease: 'back.out(2)', transformOrigin: 'top center'
+    });
+  }
+  let cAnim;
+  function play4() {
+    if (cAnim) cAnim.kill();
+    const el = document.getElementById('d4');
+    const obj = { val: 0 };
+    el.textContent = '000';
+    cAnim = gsap.to(obj, {
+      val: 100, duration: 2, ease: 'power2.out',
+      onUpdate: () => { el.textContent = Math.round(obj.val).toString().padStart(3, '0'); }
+    });
+  }
+  function play5() {
+    const wipe = document.getElementById('d5wipe');
+    gsap.set(wipe, { scaleX: 0, transformOrigin: 'left' });
+    const tl = gsap.timeline();
+    tl.to(wipe, { scaleX: 1, duration: 0.45, ease: 'power3.inOut' })
+      .to(wipe, { scaleX: 0, transformOrigin: 'right', duration: 0.45, ease: 'power3.inOut' });
+  }
+  let floatTween;
+  function play6() {
+    if (floatTween) floatTween.kill();
+    gsap.set('#d6', { y: 0 });
+    floatTween = gsap.to('#d6', { y: -14, duration: 2.2, ease: 'sine.inOut', repeat: -1, yoyo: true });
+  }
+  function play7() {
+    const stage = document.getElementById('d7');
+    stage.innerHTML = '';
+    const colors = ['#c8ff00', '#ff3c6e', '#00c8ff', '#b48eff'];
+    for (let i = 0; i < 12; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = '50%'; p.style.top = '50%';
+      p.style.background = colors[i % 4];
+      p.style.transform = 'translate(-50%,-50%)';
+      stage.appendChild(p);
+      const angle = (i / 12) * Math.PI * 2;
+      const dist = 35 + Math.random() * 25;
+      gsap.fromTo(p,
+        { x: 0, y: 0, opacity: 1, scale: 1 },
+        { x: Math.cos(angle) * dist, y: Math.sin(angle) * dist, opacity: 0, scale: 0, duration: 0.8, ease: 'power2.out', delay: 0.02 * i }
+      );
+    }
+  }
+  function play8() {
+    gsap.from('#d8', { y: 30, opacity: 0, duration: 0.9, ease: 'power3.out' });
+  }
+  function play9() {
+    gsap.to('#d9', {
+      borderRadius: '50%', rotate: 180, scale: 1.2, duration: 0.9,
+      ease: 'power2.inOut', yoyo: true, repeat: 1
+    });
+  }
+  let twTween;
+  function play10() {
+    if (twTween) twTween.kill();
+    const el = document.getElementById('d10');
+    const text = 'HELLO WORLD_';
+    el.textContent = '';
+    const obj = { len: 0 };
+    twTween = gsap.to(obj, {
+      len: text.length, duration: 1.6, ease: 'none',
+      onUpdate: () => { el.textContent = text.slice(0, Math.round(obj.len)); }
+    });
+  }
+  function play11() {
+    gsap.from('#d11', { scaleX: 0, transformOrigin: 'center', opacity: 0, duration: 1, ease: 'expo.out' });
+  }
+  let dotTween;
+  function play12() {
+    if (dotTween) dotTween.kill();
+    const dots = document.querySelectorAll('#d12 .demo-dot');
+    gsap.set(dots, { y: 0 });
+    dotTween = gsap.to(dots, {
+      y: -12, duration: 0.4, ease: 'power2.out',
+      stagger: { each: 0.15, repeat: -1, yoyo: true }
+    });
+  }
+
+  // Auto-start some loops
+  play6();
+  play12();
+
+  // Hover cursor expand
+  document.querySelectorAll('.play-btn, .anim-card').forEach(el => {
+    el.addEventListener('mouseenter', () => gsap.to(cur, { scale: 3, duration: 0.2 }));
+    el.addEventListener('mouseleave', () => gsap.to(cur, { scale: 1, duration: 0.2 }));
+  });
+</script>
+</body>
+</html>
